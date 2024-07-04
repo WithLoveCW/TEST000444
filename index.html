@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700italic,700' rel='stylesheet' type='text/css'>
+  <title>Scratch Card</title>
+  <style type="text/css">
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .sc__wrapper {
+      width: auto;
+      height: 100vh;
+      max-width: calc(100vh * (1080 / 1920));
+      aspect-ratio: 1080 / 1920;
+      border: 5px solid white;
+      position: relative;
+    }
+
+    .sc__container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .sc__container>img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sc__container canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sc__infos {
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      margin-top: 5px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sc__wrapper">
+    <div id="js--sc--container" class="sc__container">
+      <!-- background image insert here by scratchcard-js -->
+      <!-- canvas generate here -->
+    </div>
+  </div>
+
+  <script type="text/javascript" src="./js/scratchcard.min.js"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      const scContainer = document.getElementById('js--sc--container');
+      const wrapper = document.querySelector('.sc__wrapper');
+      const sc = new ScratchCard('#js--sc--container', {
+        scratchType: SCRATCH_TYPE.LINE,
+        containerWidth: wrapper.clientWidth,
+        containerHeight: wrapper.clientHeight,
+        imageForwardSrc: './images/front.jpeg',
+        imageBackgroundSrc: './images/back.jpeg',
+        htmlBackground: '',
+        clearZoneRadius: 20,
+        nPoints: 0,
+        pointSize: 10
+      });
+
+      // Init
+      sc.init().then(() => {
+        sc.canvas.addEventListener('scratch.move', () => {
+          // Add your custom logic here
+        });
+      }).catch((error) => {
+        console.error(error);
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      location.reload();
+    });
+  </script>
+</body>
+
+</html>
